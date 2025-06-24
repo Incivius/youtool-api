@@ -1,7 +1,5 @@
 package com.youtool_api.model;
 
-import java.time.LocalDate;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -14,7 +12,7 @@ public class ChannelData {
     private String nome;
     private long inscritos;
     private long views;
-    private LocalDate dataColeta;
+    // private LocalDate dataColeta;
 
     public String getId() {
         return id;
@@ -48,11 +46,11 @@ public class ChannelData {
         this.views = views;
     }
 
-    public LocalDate getDataColeta() {
-        return dataColeta;
-    }
+    // public LocalDate getDataColeta() {
+    //     return dataColeta;
+    // }
 
-    public void setDataColeta(LocalDate dataColeta) {
-        this.dataColeta = dataColeta;
-    }
+    // public void setDataColeta(LocalDate dataColeta) {
+    //     this.dataColeta = dataColeta;
+    // }
 }
