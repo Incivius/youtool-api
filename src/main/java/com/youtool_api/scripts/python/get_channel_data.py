@@ -32,8 +32,8 @@ def get_channel_data(channel_url):
                 "description": channel_info.get("description"),
                 "subscribers": channel_info.get("subscriberCount"),
                 "views": channel_info.get("viewCount"),
-                "videos": channel_info.get("videoCount"),
-                "url": f"https://youtube.com/channel/{channel_id}"
+                # "videos": channel_info.get("videoCount"),
+                # "url": f"https://youtube.com/channel/{channel_id}"
             },
             "latest_videos": videos_data,
             "quota_used": yt.used_quota
@@ -50,4 +50,4 @@ if __name__ == "__main__":
         sys.exit(1)
 
     data = get_channel_data(sys.argv[1])
-    print(json.dumps(data, ensure_ascii=False))
+    print(json.dumps(data.get("channel", {}), ensure_ascii=False))
