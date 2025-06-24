@@ -9,6 +9,7 @@ public class VideoComments {
     @Id
     private String id;
 
+    private String videoId;
     private String author;
     private String text;
     private String published_at;
@@ -19,11 +20,13 @@ public class VideoComments {
     public String getText() { return text; }
     public String getPublished_at() { return published_at; }
     public Integer getLikes() { return likes; }
+    public String getVideoId() { return videoId; }
     
     public void setId(String id) { this.id = id; }
     public void setAuthor(String author) { this.author = author; }
     public void setText(String text) { this.text = text; }
     public void setPublished_at(String published_at) { this.published_at = published_at; }
     public void setLikes(Integer likes) { this.likes = likes; }
+    public void setVideoId(String videoId) { this.videoId = videoId; }
     
 }
