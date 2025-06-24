@@ -2,15 +2,18 @@ package com.youtool_api.services;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 public class PythonScriptRunner {
 
     public static String runYouTubeScript(String channelUrl) {
         try {
+            // para windows
             String pythonInterpreter = "C:\\Users\\Home\\Desktop\\Repositorios\\Massaori\\youtool-api\\src\\main\\java\\com\\youtool_api\\scripts\\python\\venv\\Scripts\\python.exe";
             String scriptPath = "C:\\Users\\Home\\Desktop\\Repositorios\\Massaori\\youtool-api\\src\\main\\java\\com\\youtool_api\\scripts\\python\\get_channel_data.py";
+            // para o meu linux
+            // String pythonInterpreter = "/home/jhonatan/Github/youtool-api/src/main/java/com/youtool_api/scripts/python/venv/bin/python";
+            // String scriptPath = "/home/jhonatan/Github/youtool-api/src/main/java/com/youtool_api/scripts/python/get_channel_data.py";
 
             ProcessBuilder pb = new ProcessBuilder(
                     pythonInterpreter,
