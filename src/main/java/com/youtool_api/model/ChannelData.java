@@ -9,48 +9,21 @@ public class ChannelData {
     @Id
     private String id;
 
-    private String nome;
-    private long inscritos;
+    // tive que mudar o nome dos campos pra inglês pro mapper identificar automaticamente
+    private String name;
+    private String description;
+    private long subscribers;
     private long views;
-    // private LocalDate dataColeta;
 
-    public String getId() {
-        return id;
-    }
+    public String getId() { return id; }
+    public String getName() { return name; }
+    public long getSubscribers() { return subscribers; }
+    public long getViews() { return views; }
+    public String getDescription() { return description; }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public long getInscritos() {
-        return inscritos;
-    }
-
-    public void setInscritos(long inscritos) {
-        this.inscritos = inscritos;
-    }
-
-    public long getViews() {
-        return views;
-    }
-
-    public void setViews(long views) {
-        this.views = views;
-    }
-
-    // public LocalDate getDataColeta() {
-    //     return dataColeta;
-    // }
-
-    // public void setDataColeta(LocalDate dataColeta) {
-    //     this.dataColeta = dataColeta;
-    // }
+    public void setId(String id) { this.id = id; }
+    public void setName(String name) { this.name = name; }
+    public void setSubscribers(long subscribers) { this.subscribers = subscribers; }
+    public void setViews(long views) { this.views = views; }
+    public void setDescription(String description) { this.description = description; }
 }
