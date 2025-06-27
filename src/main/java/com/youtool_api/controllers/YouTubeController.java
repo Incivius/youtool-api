@@ -48,19 +48,33 @@ public class YouTubeController {
 
         try {
             ObjectMapper mapper = new ObjectMapper();
+            
+            // Debug: imprimir o JSON recebido
+            System.out.println("[CONTROLLER DEBUG] JSON recebido do Python: " + resultJson);
+            
             JsonNode root = mapper.readTree(resultJson);
+            
+            // Verificar se há erro no JSON retornado
+            if (root.has("error")) {
+                return ResponseEntity.status(500).body("{\"error\": \"Erro no script Python: " + root.get("error").asText() + "\"}");
+            }
+            
             JsonNode comments = root.get("comments");
 
-            for (JsonNode node : comments) {
-                VideoComments comment = mapper.treeToValue(node, VideoComments.class);
-                comment.setVideoId(videoId);
-                service.salvarComentario(comment);
+            if (comments != null) {
+                for (JsonNode node : comments) {
+                    VideoComments comment = mapper.treeToValue(node, VideoComments.class);
+                    comment.setVideoId(videoId);
+                    service.salvarComentario(comment);
+                }
+                return ResponseEntity.ok(comments);
+            } else {
+                return ResponseEntity.status(500).body("{\"error\": \"Campo 'comments' não encontrado no JSON retornado\"}");
             }
-
-            return ResponseEntity.ok(comments);
 
         } catch (Exception e) {
             e.printStackTrace();
+            System.err.println("[CONTROLLER ERROR] JSON que causou o erro: " + resultJson);
             return ResponseEntity.status(500).body("{\"error\": \"Erro ao converter JSON: " + e.getMessage() + "\"}");
         }
     }

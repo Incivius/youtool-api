@@ -32,5 +32,22 @@ build/
 ### VS Code ###
 .vscode/
 
+### Python ###
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+ENV/
 
-venv
+### Logs ###
+*.log
+logs/
+
+### OS ###
+.DS_Store
+Thumbs.db
+
+/transcriptions/

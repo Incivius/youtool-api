@@ -1,0 +1,9 @@
+# YouTool API - Python Dependencies
+# 
+# Install with: pip install -r requirements.txt
+
+youtool==0.2.0
+
+# Additional dependencies (automatically installed with youtool)
+# requests>=2.25.0
+# isodate>=0.6.0

@@ -1,19 +1,65 @@
 package com.youtool_api.services;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 
 public class PythonScriptRunner {
 
+    private static final String SCRIPTS_FOLDER = "scripts";
+    
+    /**
+     * Detecta o sistema operacional e retorna o caminho correto para o interpretador Python
+     */
+    private static String getPythonInterpreter() {
+        String workspaceRoot = getWorkspaceRoot();
+        String os = System.getProperty("os.name").toLowerCase();
+        
+        if (os.contains("win")) {
+            // Windows: venv/Scripts/python.exe
+            return Paths.get(workspaceRoot, "venv", "Scripts", "python.exe").toString();
+        } else {
+            // Linux/Mac: venv/bin/python
+            return Paths.get(workspaceRoot, "venv", "bin", "python").toString();
+        }
+    }
+    
+    /**
+     * Retorna o caminho para um script Python específico
+     */
+    private static String getScriptPath(String scriptName) {
+        String workspaceRoot = getWorkspaceRoot();
+        return Paths.get(workspaceRoot, SCRIPTS_FOLDER, scriptName).toString();
+    }
+    
+    /**
+     * Obtém o diretório raiz do projeto de forma multiplataforma
+     */
+    private static String getWorkspaceRoot() {
+        return System.getProperty("user.dir");
+    }
+    
+    /**
+     * Verifica se um arquivo existe
+     */
+    private static boolean fileExists(String filePath) {
+        return new File(filePath).exists();
+    }
+
     public static String runYouTubeScript(String channelUrl) {
         try {
-            // para windows
-            String pythonInterpreter = "C:\\Users\\Home\\Desktop\\Repositorios\\Massaori\\youtool-api\\src\\main\\java\\com\\youtool_api\\scripts\\python\\venv\\Scripts\\python.exe";
-            String scriptPath = "C:\\Users\\Home\\Desktop\\Repositorios\\Massaori\\youtool-api\\src\\main\\java\\com\\youtool_api\\scripts\\python\\get_channel_data.py";
-            // para o meu linux
-            // String pythonInterpreter = "/home/jhonatan/Github/youtool-api/src/main/java/com/youtool_api/scripts/python/venv/bin/python";
-            // String scriptPath = "/home/jhonatan/Github/youtool-api/src/main/java/com/youtool_api/scripts/python/get_channel_data.py";
+            String pythonInterpreter = getPythonInterpreter();
+            String scriptPath = getScriptPath("get_channel_data.py");
+
+            // Verificar se os arquivos existem
+            if (!fileExists(pythonInterpreter)) {
+                return "{\"error\": \"Python interpreter not found at: " + pythonInterpreter + "\"}";
+            }
+            if (!fileExists(scriptPath)) {
+                return "{\"error\": \"Script not found at: " + scriptPath + "\"}";
+            }
 
             ProcessBuilder pb = new ProcessBuilder(
                     pythonInterpreter,
@@ -33,7 +79,7 @@ public class PythonScriptRunner {
                 String line;
                 while ((line = reader.readLine()) != null) {
                     System.out.println("[PYTHON STDOUT] " + line); // <- PRINTA O QUE SAI DO PYTHON
-                    output.append(line);
+                    output.append(line).append("\n");
                 }
             }
 
@@ -50,7 +96,9 @@ public class PythonScriptRunner {
             System.out.println("[JAVA DEBUG] Código de saída: " + exitCode);
 
             if (exitCode == 0) {
-                return output.toString(); // JSON vindo do Python
+                String result = output.toString().trim();
+                System.out.println("[JAVA DEBUG] JSON recebido: " + result);
+                return result; // JSON vindo do Python
             } else {
                 return "{\"error\": \"Script Python terminou com código diferente de 0.\"}";
             }
@@ -63,12 +111,16 @@ public class PythonScriptRunner {
 
     public static String runGetVideoCommentsScript(String videoId) {
         try {
-            // para windows
-            String pythonInterpreter = "C:\\Users\\Home\\Desktop\\Repositorios\\Massaori\\youtool-api\\src\\main\\java\\com\\youtool_api\\scripts\\python\\venv\\Scripts\\python.exe";
-            String scriptPath = "C:\\Users\\Home\\Desktop\\Repositorios\\Massaori\\youtool-api\\src\\main\\java\\com\\youtool_api\\scripts\\python\\get_video_comments";
-            // para o meu linux
-            // String pythonInterpreter = "/home/jhonatan/Github/youtool-api/src/main/java/com/youtool_api/scripts/python/venv/bin/python";
-            // String scriptPath = "/home/jhonatan/Github/youtool-api/src/main/java/com/youtool_api/scripts/python/get_video_comments.py";
+            String pythonInterpreter = getPythonInterpreter();
+            String scriptPath = getScriptPath("get_video_comments.py");
+
+            // Verificar se os arquivos existem
+            if (!fileExists(pythonInterpreter)) {
+                return "{\"error\": \"Python interpreter not found at: " + pythonInterpreter + "\"}";
+            }
+            if (!fileExists(scriptPath)) {
+                return "{\"error\": \"Script not found at: " + scriptPath + "\"}";
+            }
 
             ProcessBuilder pb = new ProcessBuilder(
                     pythonInterpreter,
@@ -84,7 +136,7 @@ public class PythonScriptRunner {
                 String line;
                 while ((line = reader.readLine()) != null) {
                     System.out.println("[PYTHON STDOUT] " + line);
-                    output.append(line);
+                    output.append(line).append("\n");
                 }
             }
 
@@ -101,7 +153,9 @@ public class PythonScriptRunner {
             System.out.println("[JAVA DEBUG] Código de saída: " + exitCode);
 
             if (exitCode == 0) {
-                return output.toString(); // JSON do script Python
+                String result = output.toString().trim();
+                System.out.println("[JAVA DEBUG] JSON recebido: " + result);
+                return result; // JSON do script Python
             } else {
                 return "{\"error\": \"Script Python terminou com código diferente de 0.\"}";
             }
@@ -114,13 +168,16 @@ public class PythonScriptRunner {
 
     public static String runGetTranscriptionScript(String videoId) {
         try {
-            // para windows
-            String pythonInterpreter = "C:\\Users\\Home\\Desktop\\Repositorios\\Massaori\\youtool-api\\src\\main\\java\\com\\youtool_api\\scripts\\python\\venv\\Scripts\\python.exe";
-            String scriptPath = "C:\\Users\\Home\\Desktop\\Repositorios\\Massaori\\youtool-api\\src\\main\\java\\com\\youtool_api\\scripts\\python\\get_transcription.py";
-            // para o meu linux
-            // String pythonInterpreter = "/home/jhonatan/Github/youtool-api/src/main/java/com/youtool_api/scripts/python/venv/bin/python";
-            // String scriptPath = "/home/jhonatan/Github/youtool-api/src/main/java/com/youtool_api/scripts/python/get_transcription.py";
+            String pythonInterpreter = getPythonInterpreter();
+            String scriptPath = getScriptPath("get_transcription.py");
 
+            // Verificar se os arquivos existem
+            if (!fileExists(pythonInterpreter)) {
+                return "{\"error\": \"Python interpreter not found at: " + pythonInterpreter + "\"}";
+            }
+            if (!fileExists(scriptPath)) {
+                return "{\"error\": \"Script not found at: " + scriptPath + "\"}";
+            }
 
             ProcessBuilder pb = new ProcessBuilder(
                     pythonInterpreter,
@@ -136,7 +193,7 @@ public class PythonScriptRunner {
                 String line;
                 while ((line = reader.readLine()) != null) {
                     System.out.println("[PYTHON STDOUT] " + line);
-                    output.append(line);
+                    output.append(line).append("\n");
                 }
             }
 
@@ -153,7 +210,9 @@ public class PythonScriptRunner {
             System.out.println("[JAVA DEBUG] Código de saída: " + exitCode);
 
             if (exitCode == 0) {
-                return output.toString(); // JSON do script Python
+                String result = output.toString().trim();
+                System.out.println("[JAVA DEBUG] JSON recebido: " + result);
+                return result; // JSON do script Python
             } else {
                 return "{\"error\": \"Script Python terminou com código diferente de 0.\"}";
             }

@@ -1,22 +1,51 @@
-# youtool-api
-API para coletar dados do YouTube com Youtool.dev e armazenar no MongoDB
+# 🎥 YouTool API
 
+API RESTful para coletar dados do YouTube usando a biblioteca Youtool e armazenar no MongoDB.
 
-## Rode o container com o comando
+## 🚀 Quick Start
 
-```
+### Usando Docker (Recomendado)
+```bash
 docker-compose up
 ```
 
-certifique-se de estar na pasta ../youtool-api e ter o docker instalado
+### Setup Manual
+Veja o [guia completo de instalação](./SETUP.md) para instruções detalhadas para Windows, Linux e macOS.
 
-# Java
+## 📋 Requisitos
 
-## ✅ Requisitos para rodar o projeto
+- **Java 21+** (OpenJDK ou Oracle JDK)
+- **Python 3.8+**
+- **MongoDB**
+- **Docker** (opcional, para container)
 
-### 🔧 Java
+## 🌐 Endpoints
 
-* Necessário: **JDK 21**
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| `GET` | `/youtube/channel?url={url}` | Obter dados do canal YouTube |
+| `GET` | `/youtube/video-comments?videoId={id}` | Obter comentários do vídeo |
+| `GET` | `/youtube/video/transcription?videoId={id}` | Obter transcrição do vídeo |
+
+## 📁 Estrutura do Projeto
+
+```
+youtool-api/
+├── 🐍 scripts/              # Scripts Python (Youtool)
+├── ☕ src/                  # Código fonte Java (Spring Boot)
+├── 🐍 venv/                 # Ambiente virtual Python  
+├── 🐳 docker-compose.yml    # Configuração Docker
+└── 📋 requirements.txt      # Dependências Python
+```
+
+## 🔧 Características
+
+- ✅ **Multiplataforma**: Funciona em Windows, Linux e macOS
+- ✅ **Docker Ready**: Container pronto para produção
+- ✅ **API RESTful**: Endpoints padronizados e documentados
+- ✅ **MongoDB**: Persistência NoSQL para dados do YouTube
+- ✅ **Error Handling**: Tratamento robusto de erros
+- ✅ **Logs Detalhados**: Debug facilitado com logs informativos
 
 ### 🔧 Maven
 
