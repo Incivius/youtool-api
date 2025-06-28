@@ -10,40 +10,30 @@ public class PythonScriptRunner {
 
     private static final String SCRIPTS_FOLDER = "scripts";
     
-    /**
-     * Detecta o sistema operacional e retorna o caminho correto para o interpretador Python
-     */
+
     private static String getPythonInterpreter() {
         String workspaceRoot = getWorkspaceRoot();
         String os = System.getProperty("os.name").toLowerCase();
         
         if (os.contains("win")) {
-            // Windows: venv/Scripts/python.exe
             return Paths.get(workspaceRoot, "venv", "Scripts", "python.exe").toString();
         } else {
-            // Linux/Mac: venv/bin/python
             return Paths.get(workspaceRoot, "venv", "bin", "python").toString();
         }
     }
     
-    /**
-     * Retorna o caminho para um script Python específico
-     */
+
     private static String getScriptPath(String scriptName) {
         String workspaceRoot = getWorkspaceRoot();
         return Paths.get(workspaceRoot, SCRIPTS_FOLDER, scriptName).toString();
     }
     
-    /**
-     * Obtém o diretório raiz do projeto de forma multiplataforma
-     */
+
     private static String getWorkspaceRoot() {
         return System.getProperty("user.dir");
     }
     
-    /**
-     * Verifica se um arquivo existe
-     */
+
     private static boolean fileExists(String filePath) {
         return new File(filePath).exists();
     }
@@ -53,7 +43,6 @@ public class PythonScriptRunner {
             String pythonInterpreter = getPythonInterpreter();
             String scriptPath = getScriptPath("get_channel_data.py");
 
-            // Verificar se os arquivos existem
             if (!fileExists(pythonInterpreter)) {
                 return "{\"error\": \"Python interpreter not found at: " + pythonInterpreter + "\"}";
             }
@@ -65,10 +54,6 @@ public class PythonScriptRunner {
                     pythonInterpreter,
                     scriptPath,
                     channelUrl);
-
-            // IMPORTANTE: não redirecione os erros junto com stdout para conseguir ver
-            // separadamente
-            // pb.redirectErrorStream(true); // <- REMOVIDO
 
             Process process = pb.start();
 
@@ -83,7 +68,6 @@ public class PythonScriptRunner {
                 }
             }
 
-            // Lê stderr (erros)
             try (BufferedReader errorReader = new BufferedReader(
                     new InputStreamReader(process.getErrorStream(), StandardCharsets.UTF_8))) {
                 String errorLine;
@@ -98,7 +82,7 @@ public class PythonScriptRunner {
             if (exitCode == 0) {
                 String result = output.toString().trim();
                 System.out.println("[JAVA DEBUG] JSON recebido: " + result);
-                return result; // JSON vindo do Python
+                return result;
             } else {
                 return "{\"error\": \"Script Python terminou com código diferente de 0.\"}";
             }
@@ -129,7 +113,7 @@ public class PythonScriptRunner {
 
             Process process = pb.start();
 
-            // Lê stdout
+
             StringBuilder output = new StringBuilder();
             try (BufferedReader reader = new BufferedReader(
                     new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8))) {
@@ -140,7 +124,7 @@ public class PythonScriptRunner {
                 }
             }
 
-            // Lê stderr
+
             try (BufferedReader errorReader = new BufferedReader(
                     new InputStreamReader(process.getErrorStream(), StandardCharsets.UTF_8))) {
                 String errorLine;
@@ -171,7 +155,7 @@ public class PythonScriptRunner {
             String pythonInterpreter = getPythonInterpreter();
             String scriptPath = getScriptPath("get_transcription.py");
 
-            // Verificar se os arquivos existem
+
             if (!fileExists(pythonInterpreter)) {
                 return "{\"error\": \"Python interpreter not found at: " + pythonInterpreter + "\"}";
             }
@@ -186,7 +170,7 @@ public class PythonScriptRunner {
 
             Process process = pb.start();
 
-            // Lê stdout
+
             StringBuilder output = new StringBuilder();
             try (BufferedReader reader = new BufferedReader(
                     new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8))) {
@@ -197,7 +181,7 @@ public class PythonScriptRunner {
                 }
             }
 
-            // Lê stderr
+
             try (BufferedReader errorReader = new BufferedReader(
                     new InputStreamReader(process.getErrorStream(), StandardCharsets.UTF_8))) {
                 String errorLine;
@@ -212,7 +196,7 @@ public class PythonScriptRunner {
             if (exitCode == 0) {
                 String result = output.toString().trim();
                 System.out.println("[JAVA DEBUG] JSON recebido: " + result);
-                return result; // JSON do script Python
+                return result;
             } else {
                 return "{\"error\": \"Script Python terminou com código diferente de 0.\"}";
             }
