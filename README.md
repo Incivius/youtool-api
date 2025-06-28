@@ -4,14 +4,6 @@ API RESTful desenvolvida em Java (Spring Boot) para coletar dados do YouTube usa
 
 ---
 
-## 🚀 Quick Start
-
-### ▶️ Usando Docker (Recomendado)
-
-```bash
-docker-compose up
-```
-
 ## ⚙️ Tecnologias Utilizadas
 
 | Tecnologia      | Descrição                                                                 |
@@ -28,13 +20,13 @@ docker-compose up
 
 ## 📋 Requisitos
 
-| Ferramenta | Versão mínima |
-|-----------|----------------|
-| Java      | 21             |
-| Python    | 3.8            |
-| Maven     | 3.9.0          |
-| MongoDB   | Qualquer (usado na porta `28017`) |
-| Docker    | Opcional, para rodar o MongoDB via container |
+Ferramenta
+
+- Java   
+- Python    
+- Maven     
+- MongoDB   
+- Docker   
 
 ---
 
